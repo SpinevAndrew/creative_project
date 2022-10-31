@@ -1,17 +1,32 @@
+import 'package:act_project/register.dart';
+import 'package:act_project/data.dart';
+import 'package:act_project/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+/*void main() {
   runApp(MyApp());
+}*/
+
+Future main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: "App",
       initialRoute: "/",
       routes: {
-        "/": (context) => EnterWidget(),
+        "/": (context) => const EnterWidget(),
         "/login": (context) => LoginWidget(),
         "/register": (context) => RegisterWidget(),
       },
@@ -24,6 +39,7 @@ class EnterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("User: ${FirebaseAuth.instance.currentUser?.email.toString()} ${FirebaseAuth.instance.currentUser?.displayName.toString()}");
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -53,185 +69,32 @@ class EnterWidget extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(context, "/register");
               },
-            )
+            ),
+            ElevatedButton(
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("USER:::\t${FirebaseAuth.instance.currentUser?.email ?? "No auth"}"),
+                  ));
+                },
+                child: const Text("Sign out")
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("USER:::\t${FirebaseAuth.instance.currentUser?.displayName ?? "No auth"}"),
+                  ));
+                },
+                child: const Text("Info user")
+            ),
           ],
         ),
       ),
     );
   }
-}
 
-class LoginWidget extends StatelessWidget {
-  LoginWidget({super.key});
-
-  LoginData _loginData = new LoginData();
-  final _formKey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text("Login"),
-        ),
-        body: Center(
-          child: Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                child: Text("Hello", style: MyTextStyle),
-              ),
-              Form(
-                key: this._formKey,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0,
-                          horizontal: 20.0),
-                      child: TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (inValue) {
-                          if (inValue?.length == 0) {
-                            return "Please enter username";
-                          }
-                          return null;
-                        },
-                        onSaved: (inValue){
-                          this._loginData.username = inValue!;
-                        },
-                        decoration: const InputDecoration(
-                            hintText: "none@none.com",
-                            labelText: "Username (E-mail address)"),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 20.0),
-                      child: TextFormField(
-                        obscureText: true,
-                        keyboardType: TextInputType.visiblePassword,
-                        validator: (inValue) {
-                          if (inValue?.length == 0) {
-                            return "Please enter password";
-                          }
-                          return null;
-                        },
-                        onSaved: (inValue){
-                          this._loginData.password = inValue!;
-                        },
-                        decoration: const InputDecoration(
-                            hintText: "password", labelText: "Password"),
-                      ),
-                    ),
-                    ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text(
-                                      'Processing Data: ${_loginData.username} ${_loginData.password}')),
-                            );
-                          }
-                        },
-                        child: const Text("Login"))
-                  ],
-                ),
-              )
-            ],
-          ),
-        ));
-  }
-}
-
-class RegisterWidget extends StatelessWidget{
-  final LoginData _loginData = LoginData();
-  final _formKey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text("Register"),
-        ),
-        body: Center(
-          child: Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                child: Text("Hello", style: MyTextStyle),
-              ),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0,
-                          horizontal: 20.0),
-                      child: TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (inValue) {
-                          if (inValue?.length == 0) {
-                            return "Please enter username";
-                          }
-                          return null;
-                        },
-                        onSaved: (inValue){
-                          this._loginData.username = inValue!;
-                        },
-                        decoration: const InputDecoration(
-                            hintText: "none@none.com",
-                            labelText: "Username (E-mail address)"),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 20.0),
-                      child: TextFormField(
-                        obscureText: true,
-                        keyboardType: TextInputType.visiblePassword,
-                        validator: (inValue) {
-                          if (inValue?.length == 0) {
-                            return "Please enter password";
-                          }
-                          return null;
-                        },
-                        onSaved: (inValue){
-                          this._loginData.password = inValue!;
-                        },
-                        decoration: const InputDecoration(
-                            hintText: "password", labelText: "Password"),
-                      ),
-                    ),
-                    ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text(
-                                      'Processing Data: ${_loginData.username} ${_loginData.password}')),
-                            );
-                          }
-                        },
-                        child: const Text("Login"))
-                  ],
-                ),
-              )
-            ],
-          ),
-        )
-    );
-  }
 }
 
 
-class LoginData {
-  String username = "";
-  String password = "";
-}
 
-const MyTextStyle = TextStyle(fontSize: 20.0, fontFamily: "Hind");
+

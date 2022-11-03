@@ -1,6 +1,7 @@
 import 'package:act_project/register.dart';
 import 'package:act_project/data.dart';
 import 'package:act_project/login.dart';
+import 'package:act_project/music.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
       routes: {
         "/": (context) => const EnterWidget(),
         "/login": (context) => LoginWidget(),
-        "/register": (context) => RegisterWidget(),
+        "/register": (context) => const RegisterWidget(),
+        "/music": (context) => MusicWidget(),
       },
     );
   }
@@ -39,7 +41,6 @@ class EnterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("User: ${FirebaseAuth.instance.currentUser?.email.toString()} ${FirebaseAuth.instance.currentUser?.displayName.toString()}");
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -86,6 +87,12 @@ class EnterWidget extends StatelessWidget {
                   ));
                 },
                 child: const Text("Info user")
+            ),
+            ElevatedButton(
+              child: const Text('Music'),
+              onPressed: () {
+                Navigator.pushNamed(context, "/music");
+              },
             ),
           ],
         ),

@@ -58,9 +58,6 @@ class RegisterState extends State {
   @override
   Widget build(BuildContext context) {
 
-    //FirebaseAuth.instance.signOut();
-    print("User: ${FirebaseAuth.instance.currentUser?.email.toString()} ${FirebaseAuth.instance.currentUser?.displayName.toString()}");
-
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,

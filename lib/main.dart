@@ -1,3 +1,4 @@
+import 'package:act_project/networkMusic.dart';
 import 'package:act_project/register.dart';
 import 'package:act_project/data.dart';
 import 'package:act_project/login.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         "/login": (context) => LoginWidget(),
         "/register": (context) => const RegisterWidget(),
         "/music": (context) => MusicWidget(),
+        "/networkMusic": (context) => NetworkMusicWidget(),
       },
     );
   }
@@ -92,6 +94,12 @@ class EnterWidget extends StatelessWidget {
               child: const Text('Music'),
               onPressed: () {
                 Navigator.pushNamed(context, "/music");
+              },
+            ),
+            ElevatedButton(
+              child: const Text('Network Music'),
+              onPressed: () {
+                Navigator.pushNamed(context, "/networkMusic");
               },
             ),
           ],

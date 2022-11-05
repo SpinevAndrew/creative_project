@@ -3,6 +3,7 @@ import 'package:act_project/register.dart';
 import 'package:act_project/data.dart';
 import 'package:act_project/login.dart';
 import 'package:act_project/music.dart';
+import 'package:act_project/tasksList.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         "/register": (context) => const RegisterWidget(),
         "/music": (context) => MusicWidget(),
         "/networkMusic": (context) => NetworkMusicWidget(),
+        "/tasks": (context) => TasksListWidget()
       },
     );
   }
@@ -100,6 +102,12 @@ class EnterWidget extends StatelessWidget {
               child: const Text('Network Music'),
               onPressed: () {
                 Navigator.pushNamed(context, "/networkMusic");
+              },
+            ),
+            ElevatedButton(
+              child: const Text('Tasks'),
+              onPressed: () {
+                Navigator.pushNamed(context, "/tasks");
               },
             ),
           ],

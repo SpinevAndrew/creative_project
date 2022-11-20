@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -204,6 +205,9 @@ class RegisterState extends State {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: email, password: password);
      await FirebaseAuth.instance.currentUser?.updateDisplayName(registerData.username);
+     FirebaseFirestore.instance.collection("users").doc("${FirebaseAuth.instance.currentUser?.uid}").set(
+        {"currentLesson": 1}
+     );
 
     }
     on FirebaseAuthException catch (e){

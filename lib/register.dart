@@ -179,6 +179,7 @@ class RegisterState extends State {
 
                             FirebaseAuth.instance.authStateChanges().listen((User? user) {
                               if (user != null){
+                                ScaffoldMessenger.of(context).clearSnackBars();
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                   content: Text("Hello ${user.displayName}!"),
                                 ));
@@ -188,7 +189,8 @@ class RegisterState extends State {
 
                           }
                         },
-                        child: const Text("Login"))
+                        child: const Text("Login")
+                    )
                   ],
                 ),
               )

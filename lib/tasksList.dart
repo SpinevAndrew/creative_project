@@ -89,9 +89,7 @@ class TaskListState extends State{
                   enabled: _currentLesson >= int.parse(key),
                   onTap: () {
                     print("hello $key");
-                    print("${FirebaseAuth.instance.currentUser?.uid}");
                   },
-
                 ),
               ],
             );

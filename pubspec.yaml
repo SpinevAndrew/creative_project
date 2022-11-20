@@ -45,6 +45,7 @@ dependencies:
   assets_audio_player: ^3.0.5
   firebase_storage: ^10.3.11
   just_audio: ^0.9.30
+  firebase_database: ^9.1.7
   # async_textformfield: ^1.0.0+3
 
 dev_dependencies:

@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+
 import 'package:flutter/material.dart';
 
 
@@ -33,7 +36,8 @@ class TasksListWidget extends StatefulWidget{
 class TaskListState extends State{
 
   Map<String, LessonDate> _data = {};
-  String _keyEnabled = "1";
+  //String _keyEnabled = "1";
+  int _currentLesson = 1;
 
   @override
   void initState() {
@@ -49,6 +53,17 @@ class TaskListState extends State{
               }),
             }
             );
+    FirebaseFirestore.instance.collection("users").doc("${FirebaseAuth.instance.currentUser?.uid}")
+        .get().then(
+        (value) =>
+            {
+              _currentLesson = value.data()!["currentLesson"],
+              setState(() {
+                _currentLesson = _currentLesson;
+              }),
+            },
+
+    );
     super.initState();
 
   }
@@ -70,9 +85,11 @@ class TaskListState extends State{
                   leading: const Icon(Icons.arrow_right),
                   title: Text("${_data[key]?.lessonName}"),
                     // CAREFUL TODO add check
-                  enabled: int.parse(_keyEnabled) >= int.parse(key),
+                  //enabled: int.parse(_keyEnabled) >= int.parse(key),
+                  enabled: _currentLesson >= int.parse(key),
                   onTap: () {
                     print("hello $key");
+                    print("${FirebaseAuth.instance.currentUser?.uid}");
                   },
 
                 ),

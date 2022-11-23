@@ -72,7 +72,7 @@ class RegisterState extends State {
                   children: [
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                      child: Text("Hello"),
+                      child: Text("Join to us! We are glad to see you"),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -208,7 +208,7 @@ class RegisterState extends State {
           email: email, password: password);
      await FirebaseAuth.instance.currentUser?.updateDisplayName(registerData.username);
      FirebaseFirestore.instance.collection("users").doc("${FirebaseAuth.instance.currentUser?.uid}").set(
-        {"currentLesson": 1}
+        {"current_lesson": 1}
      );
 
     }

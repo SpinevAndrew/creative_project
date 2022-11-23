@@ -20,12 +20,6 @@ class LoginWidget extends StatelessWidget {
         body: Center(
           child: Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: 10.0,
-                    horizontal: 10.0),
-                child: Text("Hello", style: MyTextStyle),
-              ),
               Form(
                 key: _formKey,
                 child: Column(
@@ -69,16 +63,20 @@ class LoginWidget extends StatelessWidget {
                             hintText: "password", labelText: "Password"),
                       ),
                     ),
+                    TextButton(
+                        onPressed: () => {
+                          Navigator.pushNamed(context, "/register")
+                        },
+                        child: const Text("Sign up")
+                    ),
                     ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
                                   content: Text(
-                                      'Processing Data: '
-                                          '${_loginData.email} '
-                                          '${_loginData.password}')
+                                      'Try to sign in')
                               ),
                             );
                             try {
@@ -97,7 +95,7 @@ class LoginWidget extends StatelessWidget {
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                   content: Text("Hello ${user.displayName}!"),
                                 ));
-                                Navigator.pop(context);
+                                Navigator.pushReplacementNamed(context, "/tasks");
                               }
                             });
                           }

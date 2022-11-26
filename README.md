@@ -1,4 +1,4 @@
-# act_project
+# Creative project
 
 My education task
 
